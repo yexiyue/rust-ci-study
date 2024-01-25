@@ -71,6 +71,7 @@ jobs:
       - name: Create Release
         uses: actions/github-script@v7
         with:
+          github-token: ${{ secrets.CI_GITHUB_TOKEN }}
           script: |
             // const { name, tag_name: version } = context.payload.release
             console.log("context",context);
