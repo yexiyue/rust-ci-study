@@ -73,13 +73,14 @@ jobs:
         with:
           github-token: ${{ secrets.CI_GITHUB_TOKEN }}
           script: |
-            // const { name, tag_name: version } = context.payload.release
+            const ref=context.ref;
+            const tagName=ref.split("/").pop();
             console.log("context",context);
             const { data } = await github.rest.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              name: `${process.env.APP_NAME}`,
-              tag_name: `v0.1.5`,
+              name: `${process.env.APP_NAME}-${tagName}`,
+              tag_name: tagName,
               body: "Release created by CI",
               draft: false,
               prerelease: false,
