@@ -1,4 +1,6 @@
 name: CI
+env:
+  app_name: pass-json
 on:
   push:
     branches:
@@ -7,14 +9,9 @@ on:
     #   - v*
   workflow_dispatch: {}
 
-env:
-  app_name: pass-json
-
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-    env:
-      RUST_BACKTRACE: 1
     strategy:
       matrix:
         build: [linux, windows, macos]
