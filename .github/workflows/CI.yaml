@@ -72,7 +72,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const { name, tag_name: version } = context.payload.release
+            // const { name, tag_name: version } = context.payload.release
             console.log("context",context);
             const { data } = await github.rest.repos.createRelease({
               owner: context.repo.owner,
