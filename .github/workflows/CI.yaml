@@ -1,6 +1,4 @@
 name: CI
-env:
-  app_name: pass-json
 on:
   push:
     branches:
@@ -12,6 +10,8 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
+    env:
+      app_name: pass-json
     strategy:
       matrix:
         build: [linux, windows, macos]
