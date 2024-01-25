@@ -18,15 +18,15 @@ jobs:
           - build: linux
             os: ubuntu-latest
             target: x86_64-unknown-linux-musl
-            archive-name: ${{ github.repository }}-linux.tar.gz
+            archive-name: parse-json-linux.tar.gz
           - build: macos
             os: macos-latest
             target: x86_64-apple-darwin
-            archive-name: ${{ github.repository }}-macos.tar.gz
+            archive-name: parse-json-macos.tar.gz
           - build: windows
             os: windows-latest
             target: x86_64-pc-windows-msvc
-            archive-name: ${{ github.repository }}-windows.7z
+            archive-name: parse-json-windows.7z
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
