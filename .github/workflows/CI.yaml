@@ -5,7 +5,7 @@ on:
       - master
     # tags:
     #   - v*
-  workflow_dispatch:
+  workflow_dispatch: {}
 
 env:
   app_name: pass-json
