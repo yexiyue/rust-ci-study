@@ -10,8 +10,6 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-    env:
-      app_name: pass-json
     strategy:
       matrix:
         build: [linux, windows, macos]
@@ -19,15 +17,15 @@ jobs:
           - build: linux
             os: ubuntu-latest
             target: x86_64-unknown-linux-musl
-            archive-name: ${{ env.app_name }}-linux.tar.gz
+            archive-name: pass-json-linux.tar.gz
           - build: windows
             os: windows-latest
             target: x86_64-apple-darwin
-            archive-name: ${{ env.app_name }}-macos.tar.gz
+            archive-name: pass-json-macos.tar.gz
           - build: macos
             os: macos-latest
             target: x86_64-pc-windows-msvc
-            archive-name: ${{ env.app_name }}-windows.7z
+            archive-name: pass-json-windows.7z
       fail-fast: false
     steps:
       - uses: actions/checkout@v2
