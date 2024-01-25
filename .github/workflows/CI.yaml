@@ -7,17 +7,41 @@ on:
     #   - v*
   workflow_dispatch:
 
+env:
+  app_name: pass-json
+
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    env:
+      RUST_BACKTRACE: 1
+    strategy:
+      matrix:
+        build: [linux, windows, macos]
+        include:
+          - build: linux
+            os: ubuntu-latest
+            target: x86_64-unknown-linux-musl
+            archive-name: ${{ env.app_name }}-linux.tar.gz
+          - build: windows
+            os: windows-latest
+            target: x86_64-apple-darwin
+            archive-name: ${{ env.app_name }}-macos.tar.gz
+          - build: macos
+            os: macos-latest
+            target: x86_64-pc-windows-msvc
+            archive-name: ${{ env.app_name }}-windows.7z
+      fail-fast: false
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
         with:
+          profile: minimal
           toolchain: stable
-      - name: 打印文件夹
-        run: ls -a
-      - name: 打印cargo
-        run: cargo -v
-      - name: 打印rustup
-        run: rustup show
+          override: true
+          target: ${{ matrix.target }}
+      - name: Build Binary
+        run: cargo build --release --target ${{ matrix.target }}
+      - name: Publish
+        run: cargo publish --token ${{ secrets.CRATE_TOKEN }}
+      
