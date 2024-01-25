@@ -3,8 +3,8 @@ on:
   push:
     branches:
       - master
-    # tags:
-    #   - v*
+    tags:
+      - v*
   workflow_dispatch: {}
 
 
@@ -18,15 +18,18 @@ jobs:
           - build: linux
             os: ubuntu-latest
             target: x86_64-unknown-linux-musl
-            archive-name: parse-json-linux.tar.gz
+            # archive-name: parse-json-linux.tar.gz
+            archive-name: parse-json
           - build: macos
             os: macos-latest
             target: x86_64-apple-darwin
-            archive-name: parse-json-macos.tar.gz
+            # archive-name: parse-json-macos.tar.gz
+            archive-name: parse-json
           - build: windows
             os: windows-latest
             target: x86_64-pc-windows-msvc
-            archive-name: parse-json-windows.7z
+            # archive-name: parse-json-windows.7z
+            archive-name: parse-json.exe
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
@@ -76,17 +79,17 @@ jobs:
       #     upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
       #     asset_path: ./${{ matrix.archive-name }}
       #     asset_name: ${{ matrix.archive-name }}
-  # publish:
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions-rs/toolchain@v1
-  #       with:
-  #         profile: minimal
-  #         toolchain: stable
-  #         override: true
-  #     - name: publish
-  #       run: cargo publish --token ${{ secrets.CRATE_TOKEN }}
+  publish:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      - name: publish
+        run: cargo publish --token ${{ secrets.CRATE_TOKEN }}
   
       

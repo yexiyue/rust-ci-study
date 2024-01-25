@@ -55,8 +55,10 @@ pub fn fusion_run() -> Result<(), Box<dyn std::error::Error>> {
         let value = json1[i].borrow_mut();
         let keys = value.category_key.split("_").collect::<Vec<_>>();
         value.category_key = keys.last().unwrap().to_string();
-        let keys = value.title_key.split("_").collect::<Vec<_>>();
-        value.title_key = keys.last().unwrap().to_string();
+
+        let keys = value.path.split("/").collect::<Vec<_>>();
+        value.title_key = keys.last().unwrap().to_string().replace(".svg", "");
+        
         let mut icon = json!(value);
         icon["enTitle"] = Value::String(json2[i].title.clone());
         icon["enCategoryTitle"] = Value::String(json2[i].category_title.clone());
