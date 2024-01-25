@@ -1,16 +1,15 @@
 name: CI
 on:
   push:
-    branches:
-      - master
     tags:
       - v*
   workflow_dispatch: {}
 
-
 jobs:
   build:
     runs-on: ${{ matrix.os }}
+    env:
+      APP_NAME: parse-json
     strategy:
       matrix:
         build: [linux, windows, macos]
@@ -18,15 +17,15 @@ jobs:
           - build: linux
             os: ubuntu-latest
             target: x86_64-unknown-linux-musl
-            archive-name: parse-json-linux.tar.gz
+            archive-name: ${{ env.APP_NAME }}-linux.tar.gz
           - build: macos
             os: macos-latest
             target: x86_64-apple-darwin
-            archive-name: parse-json-macos.tar.gz
+            archive-name: ${{ env.APP_NAME }}-macos.tar.gz
           - build: windows
             os: windows-latest
             target: x86_64-pc-windows-msvc
-            archive-name: parse-json-windows.7z
+            archive-name: ${{ env.APP_NAME }}-windows.7z
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
@@ -44,38 +43,17 @@ jobs:
           mkdir archive
           cd archive
           if [ "${{ matrix.build }}" = "windows" ]; then
-            cp "../target/${{ matrix.target }}/release/parse-json.exe" ./
-            7z a "${{ matrix.archive-name }}" parse-json.exe
+            cp "../target/${{ matrix.target }}/release/${{ env.APP_NAME }}.exe" ./
+            7z a "${{ matrix.archive-name }}" "${{ env.APP_NAME }}.exe"
           else
-            cp "../target/${{ matrix.target }}/release/parse-json" ./
-            tar -czf "${{ matrix.archive-name }}" parse-json
+            cp "../target/${{ matrix.target }}/release/${{ env.APP_NAME }}" ./
+            tar -czf "${{ matrix.archive-name }}" "${{ env.APP_NAME }}""
           fi
       - name: Upload archive
         uses: actions/upload-artifact@v2
         with:
           name: ${{ matrix.archive-name }}
           path: archive/${{ matrix.archive-name }}
-      # - name: ls -a
-      #   run: ls -a
-      # - name: Create Release
-      #   id: create_release
-      #   uses: actions/create-release@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     tag_name: ${{ github.ref }}
-      #     release_name: Release ${{ github.ref }}
-      #     draft: false
-      #     prerelease: false
-      # - name: Upload Release Asset
-      #   id: upload-release-asset 
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-      #     asset_path: ./${{ matrix.archive-name }}
-      #     asset_name: ${{ matrix.archive-name }}
   publish:
     runs-on: ubuntu-latest
     needs: build
