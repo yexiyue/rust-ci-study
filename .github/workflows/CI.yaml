@@ -18,18 +18,15 @@ jobs:
           - build: linux
             os: ubuntu-latest
             target: x86_64-unknown-linux-musl
-            # archive-name: parse-json-linux.tar.gz
-            archive-name: parse-json-linux
+            archive-name: parse-json-linux.tar.gz
           - build: macos
             os: macos-latest
             target: x86_64-apple-darwin
-            # archive-name: parse-json-macos.tar.gz
-            archive-name: parse-json-macro
+            archive-name: parse-json-macos.tar.gz
           - build: windows
             os: windows-latest
             target: x86_64-pc-windows-msvc
-            # archive-name: parse-json-windows.7z
-            archive-name: parse-json.exe
+            archive-name: parse-json-windows.7z
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
@@ -48,11 +45,10 @@ jobs:
           cd archive
           if [ "${{ matrix.build }}" = "windows" ]; then
             cp "../target/${{ matrix.target }}/release/parse-json.exe" ./
-            # 7z a "${{ matrix.archive-name }}" parse-json.exe
+            7z a "${{ matrix.archive-name }}" parse-json.exe
           else
             cp "../target/${{ matrix.target }}/release/parse-json" ./
-            mv parse-json ${{ matrix.archive-name }}
-            # tar -czf "${{ matrix.archive-name }}" parse-json
+            tar -czf "${{ matrix.archive-name }}" parse-json
           fi
       - name: Upload archive
         uses: actions/upload-artifact@v2
