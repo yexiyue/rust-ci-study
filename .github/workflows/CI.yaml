@@ -50,6 +50,8 @@ jobs:
             cp "../target/${{ matrix.target }}/release/parse-json" ./
             tar -czf "${{ matrix.archive-name }}" parse-json
           fi
+      - name: ls -a
+        run: ls -a
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
