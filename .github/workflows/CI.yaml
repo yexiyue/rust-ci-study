@@ -78,7 +78,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               name: `${process.env.APP_NAME}-${version}`,
-              tag_name: v0.1.5,
+              tag_name: `v0.1.5`,
               body: "Release created by CI",
               draft: false,
               prerelease: false,
