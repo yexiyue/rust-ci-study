@@ -23,7 +23,7 @@ jobs:
             os: macos-latest
             target: x86_64-apple-darwin
             archive-name: pass-json-macos.tar.gz
-          - build: window
+          - build: windows
             os: windows-latest
             target: x86_64-pc-windows-msvc
             archive-name: pass-json-windows.7z
