@@ -17,15 +17,15 @@ jobs:
           - build: linux
             os: ubuntu-latest
             target: x86_64-unknown-linux-musl
-            archive-name: ${{ env.APP_NAME }}-linux.tar.gz
+            archive-name: "${{ env.APP_NAME }}-linux.tar.gz"
           - build: macos
             os: macos-latest
             target: x86_64-apple-darwin
-            archive-name: ${{ env.APP_NAME }}-macos.tar.gz
+            archive-name: "${{ env.APP_NAME }}-macos.tar.gz"
           - build: windows
             os: windows-latest
             target: x86_64-pc-windows-msvc
-            archive-name: ${{ env.APP_NAME }}-windows.7z
+            archive-name: "${{ env.APP_NAME }}-windows.7z"
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
