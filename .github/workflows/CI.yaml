@@ -65,7 +65,21 @@ jobs:
       # - name: Display structure of downloaded files
       #   run: ls
       - name: Create Release
-        uses: shogo82148/actions-create-release@v1
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { name, tag_name: version } = context.payload.release
+            console.log("context",context);
+            const { data } = await github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: `${process.env.APP_NAME}-${version}`,
+              tag_name: v0.1.5,
+              body: "Release created by CI",
+              draft: false,
+              prerelease: false,
+            });
+            console.log(data);
 
 
   # publish:
