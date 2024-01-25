@@ -1,6 +1,8 @@
 name: CI
 on:
   push:
+    branches:
+      - "master"
     tags:
       - v*
   workflow_dispatch: {}
@@ -43,10 +45,10 @@ jobs:
           cd archive
           if [ "${{ matrix.build }}" = "windows" ]; then
             cp "../target/${{ matrix.target }}/release/${{ env.APP_NAME }}.exe" ./
-            7z a "${{ matrix.archive-name }}" "${{ env.APP_NAME }}.exe"
+            7z a "${{ matrix.archive-name }}" ${{ env.APP_NAME }}.exe
           else
             cp "../target/${{ matrix.target }}/release/${{ env.APP_NAME }}" ./
-            tar -czf "${{ matrix.archive-name }}" "${{ env.APP_NAME }}""
+            tar -czf "${{ matrix.archive-name }}" ${{ env.APP_NAME }}
           fi
       - name: Upload archive
         uses: actions/upload-artifact@v2
