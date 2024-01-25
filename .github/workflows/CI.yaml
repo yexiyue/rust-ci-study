@@ -50,8 +50,8 @@ jobs:
             cp "../target/${{ matrix.target }}/release/parse-json" ./
             tar -czf "${{ matrix.archive-name }}" parse-json
           fi
-      - name: ls -a
-        run: ls -a
+      - name: ls archive
+        run: ls archive
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -69,7 +69,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: ./${{ matrix.archive-name }}
+          asset_path: archive/${{ matrix.archive-name }}
           asset_name: ${{ matrix.archive-name }}
   # publish:
   #   runs-on: ubuntu-latest
