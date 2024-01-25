@@ -7,6 +7,7 @@ on:
     #   - v*
   workflow_dispatch: {}
 
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -18,12 +19,12 @@ jobs:
             os: ubuntu-latest
             target: x86_64-unknown-linux-musl
             archive-name: pass-json-linux.tar.gz
-          - build: windows
-            os: windows-latest
-            target: x86_64-apple-darwin
-            archive-name: pass-json-macos.tar.gz
           - build: macos
             os: macos-latest
+            target: x86_64-apple-darwin
+            archive-name: pass-json-macos.tar.gz
+          - build: window
+            os: windows-latest
             target: x86_64-pc-windows-msvc
             archive-name: pass-json-windows.7z
       fail-fast: false
@@ -37,6 +38,17 @@ jobs:
           target: ${{ matrix.target }}
       - name: Build Binary
         run: cargo build --release --target ${{ matrix.target }}
-      - name: Publish
-        run: cargo publish --token ${{ secrets.CRATE_TOKEN }}
+  publish:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      - name: publish
+        run: cargo publish --token ${{ secrets.CARGO_TOKEN }}
+  
       

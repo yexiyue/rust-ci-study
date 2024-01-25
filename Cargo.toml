@@ -2,7 +2,8 @@
 name = "parse-json"
 version = "0.1.0"
 edition = "2021"
-
+license = "MIT"
+description = "一个处理json的cli程序"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
