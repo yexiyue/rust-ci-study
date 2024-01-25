@@ -19,12 +19,12 @@ jobs:
             os: ubuntu-latest
             target: x86_64-unknown-linux-musl
             # archive-name: parse-json-linux.tar.gz
-            archive-name: parse-json
+            archive-name: parse-json-linux
           - build: macos
             os: macos-latest
             target: x86_64-apple-darwin
             # archive-name: parse-json-macos.tar.gz
-            archive-name: parse-json
+            archive-name: parse-json-macro
           - build: windows
             os: windows-latest
             target: x86_64-pc-windows-msvc
@@ -51,6 +51,7 @@ jobs:
             # 7z a "${{ matrix.archive-name }}" parse-json.exe
           else
             cp "../target/${{ matrix.target }}/release/parse-json" ./
+            mv parse-json ${{ matrix.archive-name }}
             # tar -czf "${{ matrix.archive-name }}" parse-json
           fi
       - name: Upload archive
