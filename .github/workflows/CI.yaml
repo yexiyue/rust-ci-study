@@ -95,11 +95,12 @@ jobs:
           path: archive/${{ matrix.archive-name }}
       - name: Publish Release
         id: publish-release
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         env:
-         release_id: ${{ jobs.create_release.outputs.release_id }}
+         release_id: ${{ needs.create_release.outputs.release_id }}
          name: ${{ matrix.archive-name }}
         with:
+          github-token: ${{ secrets.CI_GITHUB_TOKEN }}
           script: |
               await github.rest.repos.uploadReleaseAsset({
                 owner: context.repo.owner,
