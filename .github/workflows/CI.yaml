@@ -46,7 +46,7 @@ jobs:
     needs: create_release
     env:
       archive-name: |
-        ${{ needs.create_release.outputs.APP_NAME }}-${{ matrix.build }}.${{ matrix.build == 'windows' && '7z' || 'tar.gz' }}
+        "${{ needs.create_release.outputs.APP_NAME }}-${{ matrix.build }}${{ matrix.build == "windows" && ".7z" || ".tar.gz" }}"
     strategy:
       matrix:
         build: [linux, windows, macos]
