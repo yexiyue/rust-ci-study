@@ -82,20 +82,17 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
             });
-            console.log("tagList",tagList);
-            // if(tagName.indexOf("v")!==0){
-            //  tagName=tagList.data.tags[0].name;
-            // }
-            console.log("context",context);
-            // const { data } = await github.rest.repos.createRelease({
-            //   owner: context.repo.owner,
-            //   repo: context.repo.repo,
-            //   name: `${process.env.APP_NAME}${tagName}`,
-            //   tag_name: tagName,
-            //   draft: false,
-            //   prerelease: false,
-            // });
-            return "hadwghkklo15354684wadw";
+
+            const { data } = await github.rest.repos.createRelease({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               name: `${process.env.APP_NAME}${tagName}`,
+               tag_name: tagName,
+               draft: false,
+               prerelease: false,
+            });
+            console.log(data);
+            return data.id;
 
       - name: Publish Release
         id: publish-release
@@ -104,14 +101,13 @@ jobs:
          release_id: ${{ steps.create-release.outputs.result }}
         with:
           script: |
-            console.log("process.env.release_id",process.env.release_id);
-            // await github.rest.repos.updateRelease({
-            //   owner: context.repo.owner,
-            //   repo: context.repo.repo,
-            //   release_id: process.env.release_id,
-            //   draft: false,
-            //   prerelease: false
-            // })
+              // await github.rest.repos.updateRelease({
+              //   owner: context.repo.owner,
+              //   repo: context.repo.repo,
+              //   release_id: process.env.release_id,
+              //   draft: false,
+              //   prerelease: false
+              // })
 
 
   # publish:
