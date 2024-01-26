@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       release_id: ${{ steps.create-release.outputs.result }}
+      APP_NAME: ${{ env.APP_NAME }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -45,7 +46,7 @@ jobs:
     needs: create_release
     env:
       archive-name: |
-        ${{ env.APP_NAME }}-${{ matrix.build }}.${{ matrix.build == 'windows' ? '7z' : 'tar.gz' }}
+        ${{ needs.create_release.outputs.APP_NAME }}-${{ matrix.build }}.${{ matrix.build == 'windows' ? '7z' : 'tar.gz' }}
     strategy:
       matrix:
         build: [linux, windows, macos]
