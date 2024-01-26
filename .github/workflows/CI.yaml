@@ -9,7 +9,7 @@ on:
 env:
   APP_NAME: parse-json
 jobs:
-  create-release:
+  create_release:
     runs-on: ubuntu-latest
     outputs:
       release_id: ${{ steps.create-release.outputs.result }}
@@ -44,7 +44,7 @@ jobs:
             return data.id;
   build:
     runs-on: ${{ matrix.os }}
-    needs: create-release
+    needs: create_release
     strategy:
       matrix:
         build: [linux, windows, macos]
@@ -97,7 +97,7 @@ jobs:
         id: publish-release
         uses: actions/github-script@v6
         env:
-         release_id: ${{ jobs.create-release.outputs.release_id }}
+         release_id: ${{ jobs.create_release.outputs.release_id }}
          name: ${{ matrix.archive-name }}
         with:
           script: |
