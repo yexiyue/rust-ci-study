@@ -121,5 +121,5 @@ jobs:
           toolchain: stable
           override: true
       - name: publish
-        if: ${{ env.PUBLISH_CRATE }}
+        if: ${{ env.PUBLISH_CRATE == true }}
         run: cargo publish --token ${{ secrets.CRATE_TOKEN }}
